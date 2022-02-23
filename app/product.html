@@ -5,6 +5,29 @@
   <title>HPlus Sport</title>
   <link rel="stylesheet" href="css/style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../jquery-3.0.0.js"></script>
+  <script>
+	  $("document").ready(function() {
+		  let paramLoc = window.location.href.indexOf("?");
+		  let paramStr = window.location.href.slice(paramLoc + 1);
+		  let prodName = "";
+		  let prodId = "";
+		  console.log(paramStr);
+		  let i = paramStr.indexOf("prodName=") + "prodName=".length;
+		  for(let j = i; j < paramStr.length; j++) {
+			  if(paramStr.charAt(j) == "&")
+			  		break;
+			  prodName += paramStr.charAt(j);
+		  }
+		  i = paramStr.indexOf("prodID=") + "prodID=".length;
+		  for(let j = i; j < paramStr.length; j++) {
+			  prodId += paramStr.charAt(j);
+		  }
+		  prodName = decodeURIComponent(prodName);
+		  prodId = decodeURIComponent(prodId);
+		  $("#productName").text(prodName);
+	  });
+  </script>
 </head>
 <body>
 

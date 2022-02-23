@@ -8,29 +8,42 @@
   <script src="../jquery-3.0.0.js"></script>
   <script>
 	$("document").ready(function() {
-		$(".product-list").before(`
-			<div class='container control' style='margin-bottom:15px'>
-				<span>Show: </span>
-				<input id='vtmn' type='checkbox' value='vitamin' checked>
-				<label for='vtmn'>Vitamin</label>
-				<input id='mnwtr' type='checkbox' value='mineralwater' checked>
-				<label for='mnwtr'>Mineral Water</label>
-				<input id='prtnbr' type='checkbox' value='proteinbar' checked>
-				<label for='prtnbr'>Protein Bar</label>
-			</div>
-		`);
-		const controls = $(".control input[type='checkbox']");
-		controls.each(function(){
-			let cateName = $(this).attr('value');
-			$(this).on('change', function(evt) {
-				updateView(cateName, evt.target.checked);
+
+			// Code for radio toggler or product filter
+			$(".product-list").before(`
+				<div class='container control' style='margin-bottom:15px'>
+					<span>Show: </span>
+					<input id='vtmn' type='checkbox' value='vitamin' checked>
+					<label for='vtmn'>Vitamin</label>
+					<input id='mnwtr' type='checkbox' value='mineralwater' checked>
+					<label for='mnwtr'>Mineral Water</label>
+					<input id='prtnbr' type='checkbox' value='proteinbar' checked>
+					<label for='prtnbr'>Protein Bar</label>
+				</div>
+			`);
+			const controls = $(".control input[type='checkbox']");
+			controls.each(function(){
+				let cateName = $(this).attr('value');
+				$(this).on('change', function(evt) {
+					updateView(cateName, evt.target.checked);
+				});
 			});
-		});
-		function updateView(category, checkedStatus) {
-			$(".product-item").has("h2[data-type="+ category +"]").each(function() {
-				$(this).css("display", checkedStatus ? "" : "none");
-			})
-		}
+			function updateView(category, checkedStatus) {
+				$(".product-item").has("h2[data-type="+ category +"]").each(function() {
+					$(this).css("display", checkedStatus ? "" : "none");
+				})
+			}
+
+			// Code for linking to product page with respective product name
+			$(".product-item").each(function() {
+				let prodName = encodeURIComponent($(this).children(".product-name").text());
+				let prodId = $(this).data("prod_id");
+				let link = "<a href='product.html?prodName=" + prodName + "&prodID=" + prodId + "'>";
+				$(this).children(".product-image").wrap(link);
+				console.log(prodName);
+				console.log(prodId);
+				console.log(link);
+			});
 	});
 </script>
 </head>

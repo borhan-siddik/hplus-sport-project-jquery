@@ -8,11 +8,11 @@
   <script src="../jquery-3.0.0.js"></script>
   <script>
 	  $("document").ready(function() {
+		  // Code for parsing product name and product id
 		  let paramLoc = window.location.href.indexOf("?");
 		  let paramStr = window.location.href.slice(paramLoc + 1);
 		  let prodName = "";
 		  let prodId = "";
-		  console.log(paramStr);
 		  let i = paramStr.indexOf("prodName=") + "prodName=".length;
 		  for(let j = i; j < paramStr.length; j++) {
 			  if(paramStr.charAt(j) == "&")
@@ -26,6 +26,20 @@
 		  prodName = decodeURIComponent(prodName);
 		  prodId = decodeURIComponent(prodId);
 		  $("#productName").text(prodName);
+
+		  //code for parsing product data using the product id
+		  function getProductData(prodId) {
+				$.getJSON('product-data.json', function(data, status, jqXHR){
+					$.each(data.products, function(i, item) {
+						if(item.prod_id == prodId) {
+							$("#productStock").text(item.in_stock ? "Yes" : "No");
+							$("#productPrice").text(item.retail_price);
+							$("#productDesc").text(item.description);
+						}
+					});
+				});
+		  }
+		  getProductData(prodId);
 	  });
   </script>
 </head>
